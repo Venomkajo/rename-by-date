@@ -10,11 +10,36 @@ def rename_by_date():
     files_in_current_directory = os.listdir(current_directory)
     success = False
 
+    time_user_choice = ''
+    while True:
+        time_user_choice = input('\nChoose the time: C - creation, M - modification, E - exit\n').upper()
+        if time_user_choice in ['E']:
+            return 0
+        elif time_user_choice in ['C', 'M']:
+            break
+
+    folder_user_choice = ''
+    while True:
+        folder_user_choice = input('\nRename folders? Y/N\n').upper()
+        if folder_user_choice in ['E']:
+            return 0
+        elif folder_user_choice in ['Y', 'N']:
+            break
+
     # for every filename in the selected files
     for file in files_in_current_directory:
-        if file != CURRENT_PROGRAM_NAME:
+        folder_check = True
+
+        if folder_user_choice == 'N':
+            if os.path.isdir(file):
+                folder_check = False
+
+        if file != CURRENT_PROGRAM_NAME and folder_check:
             # get the time
-            file_time = os.path.getctime(file)
+            if time_user_choice == 'C':
+                file_time = os.path.getctime(file)
+            elif time_user_choice == 'M':
+                file_time = os.path.getmtime(file)
             file_time = time.ctime(file_time)
 
             # modify the time into an time object and format it to year-month-day hour-minute-second + it's current name
@@ -30,7 +55,7 @@ def rename_by_date():
         input("\nSuccess! Files were renamed successfully.\n")
         return 0
     else:
-        input("No files in current directory.")
+        input("\nNo files in current directory.\n")
         return 1
 
 rename_by_date()
