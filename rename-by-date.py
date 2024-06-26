@@ -1,12 +1,12 @@
 import os
 import time
 
-CURRENT_PROGRAM_NAME = "rename-by-date.py"
-
 # main function
 def rename_by_date():
     try:
         # initialize variables
+        CURRENT_PROGRAM_NAME = os.path.basename(__file__)
+
         current_directory = os.getcwd()
         files_in_current_directory = os.listdir(current_directory)
         success = False
@@ -53,7 +53,7 @@ def rename_by_date():
                     os.rename(file, time_stamp)
                     success = True
                 except Exception as e:
-                    print(f'\nAn error occured: {e}\n')
+                    print(f'\nAn error has occured: {e}\n')
                     return 2
     
         if success:
@@ -64,7 +64,7 @@ def rename_by_date():
             return 3
         
     except Exception as e:
-        print(f'\nAn error occured: {e}\n')
+        print(f'\nAn error has occured: {e}\n')
         return 1
 
 rename_by_date()
